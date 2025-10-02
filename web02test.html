@@ -13,7 +13,7 @@
 </head>
 <body>
     <img src="imagenes/imagen1.jfif" alt="">
-    <img src="imagenes/imagen3.jfif" alt="">
+    <img id="hola" src="imagenes/imagen3.jfif" alt="">
     <img src="imagenes/imagen1.jfif" alt="">
     <img src="imagenes/imagen4.jfif" alt="">
     <img src="imagenes/imagen5.jfif" alt="">
@@ -21,13 +21,13 @@
     <script>
         $(document).ready(function(){
             
-            $("img").mouseover(function(){  
+            $("#hola").mouseover(function(){  
                 var actual = $(this).attr("src");
                 console.log("Imagen over: " + actual);
                 $(this).attr("src","imagenes/imagen2.jfif");
             })
 
-            $("img").mouseout(function(){
+            $("#hola").mouseout(function(){
                 var actual = $(this).attr("src");
                 console.log("Imagen over: " + actual);
                 $(this).attr("src","imagenes/imagen1.jfif");
