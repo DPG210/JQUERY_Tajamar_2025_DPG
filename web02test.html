@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img{
+            width: 150px;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <img src="imagenes/imagen1.jfif" alt="">
+    <img src="imagenes/imagen1.jfif" alt="">
+    <img src="imagenes/imagen1.jfif" alt="">
+    <img src="imagenes/imagen1.jfif" alt="">
+    <img src="imagenes/imagen1.jfif" alt="">
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            
+            $("img").mouseover(function(){  
+                var actual = $(this).attr("src");
+                console.log("Imagen over: " + actual);
+                $(this).attr("src","imagenes/imagen2.jfif");
+            })
+
+            $("img").mouseout(function(){
+                var actual = $(this).attr("src");
+                console.log("Imagen over: " + actual);
+                $(this).attr("src","imagenes/imagen1.jfif");
+            })
+        })
+    </script>
+</body>
+</html>
