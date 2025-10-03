@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>EMPRESA</h1>
+    <label for="">Introduzca ID</label>
+    <input type="text" id="cajaid">
+    <button id="botonatributo">Buscar atributo ID</button>
+    <hr/>
+    <label for="">Introduzca localidad</label>
+    <input type="text" id="cajalocalidad">
+    <button id="botonlocalidad">Busar localidad contains</button>
+    <hr/>
+    <h1 style="color:fuchsia" id="mensaje"></h1>
+    <ul id="listadepartamentos"></ul>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#botonatributo").click(function(){
+                $.get("documents/departamentos.xml",function(data){
+                    console.log("Dentro de atributo");
+                    //EL FILTRO SERA EL SIGUIENTE: DEPT[DEPT_NO=10]
+                    var id= $("#cajaid").val();
+                    var filtro= "DEPT[DEPT_NO="+ id +"]";
+                    //SOLAMENTE TENEMOS UN ID POR DEPARTAMENTO
+                    var nododept= $(data).find(filtro).first();
+                    var nombre= $(nododept).find("DNOMBRE").text();
+                    var localidad= $(nododept).find("LOC").text();
+                    $("#mensaje").text("Departamento: " + nombre + ", Localidad: "+localidad);
+                })
+                
+            })
+            $("#botonlocalidad").click(function(){
+                $.get("documents/departamentos.xml",function(data){
+                    console.log("Dentro de localidad");
+                    var localidad= $("#cajalocalidad").val();
+                    //EL FILTRO SERA EL SIGUIENTE: LOC:contains(GIJON)
+                    var filtro= "LOC:contains("+localidad+")";
+                    //SON VARIOS ELEMENTOS LOS QUE QUEREMOS RECORRER
+                    var html="";
+                    $(data).find(filtro).each(function(){
+                        var cosa= $(this).text();
+                        
+                        console.log(cosa);
+
+                        if (cosa.text()==""){
+
+                            html="No hay coincidencias";
+                            console.log("este es mi html vacio");
+                        }
+                        else{
+                            var nombre=$
+
+                        }
+                    })
+
+                    $("#listadepartamentos").html(html);
+                })
+                
+            })
+
+
+        })
+    </script>
+</body>
+</html>
