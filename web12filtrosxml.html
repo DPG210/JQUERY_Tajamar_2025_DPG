@@ -42,21 +42,24 @@
                     var filtro= "LOC:contains("+localidad+")";
                     //SON VARIOS ELEMENTOS LOS QUE QUEREMOS RECORRER
                     var html="";
-                    $(data).find(filtro).each(function(){
-                        var cosa= $(this).text();
+                    var elemento= $(data).find(filtro);
+                    if(elemento.length<=0){
+                        html="No hay coincidencias"
+                    }else{
+                        $(data).find(filtro).each(function(){
+                        // var cosa= $(this).text();
                         
-                        console.log(cosa);
+                        var nombre=$(this).parent().find("DNOMBRE").text();
+                        var numdept=$(this).parent().attr("DEPT_NO");
 
-                        if (cosa.text()==""){
+                        console.log("mi numero de departamento es: "+numdept);
 
-                            html="No hay coincidencias";
-                            console.log("este es mi html vacio");
-                        }
-                        else{
-                            var nombre=$
+                        html+="<li>"+ numdept+ "  " + nombre +"  " +cosa+"</li>";
 
-                        }
+                        
                     })
+                    }
+                    
 
                     $("#listadepartamentos").html(html);
                 })
