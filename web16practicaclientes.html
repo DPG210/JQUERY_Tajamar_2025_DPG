@@ -32,6 +32,7 @@
                 
             })
             $("#selectcliente").change(function(){
+                $("#contenedor").empty();
                 var id=$(this).val();
                 $.get(url+request,function(data){
                     var filtro= "CLIENTE[IDCLIENTE="+id+"]";
@@ -51,10 +52,10 @@
                     html+="<li>"+id+"<br> "+nombre+"<br> "+direccion+"</li>";
                     var img=$("<img>");
                     img.attr("src",imagen); 
-                    img.css("style",'with:15px');
+                    img.css("width","150px");
                     console.log("Este es mi html" +html);
                     $("#contenedor").append(html);
-                    $("#contenedor").append(imagen);
+                    $("#contenedor").append(img);
                     
                     
                 })
