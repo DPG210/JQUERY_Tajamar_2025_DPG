@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Departamentos XML service</h1>
+    <button id="botoncargar">Cargar datos</button>
+    <ul id="listadepartamentos"></ul>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#botoncargar").click(function(){
+                let url="https://apicruddepartamentosxml.azurewebsites.net/";
+                let request="api/departamentos";
+                //  $.get("https://apicruddepartamentosxml.azurewebsites.net/api/departamentos"),function(data){
+                // Las dos maneras son los mismo, una por variables y otra poniendo toda la url
+                //  }
+                $.get(url + request,function(data){
+                    console.log("Leyendo...");
+                    var html="";
+                    $(data).find("Departamento").each(function(){
+                        var id=$(this).find("IdDepartamento").first().text();
+                        var nombre=$(this).find("Nombre").first().text();
+                        var localidad=$(this).find("Localidad").first().text();
+
+                        html+="<li>"+id+" , "+nombre+" , "+localidad +"</li>";
+
+                        $("#listadepartamentos").html(html);
+                    })
+                })
+            })
+           
+        })
+    </script>
+</body>
+</html>

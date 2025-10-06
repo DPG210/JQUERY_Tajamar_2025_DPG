@@ -45,9 +45,9 @@
                             var nota2=$(this).find("nota").text();
                             
                             if(nota2>=nota){
-                                var nombre= $(this).find("nombre").text();
-                                var apellidos= $(this).find("apellidos").text();
-                                
+                                var nombre= $(this).find("nombre").first().text();
+                                var apellidos= $(this).find("apellidos").first().text();
+
                                 console.log("Entrando en el ultimo if");
                                 html+="<tr>"
                                 html+="<td>" + nombre;
