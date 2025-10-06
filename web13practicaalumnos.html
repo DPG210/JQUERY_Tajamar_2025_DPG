@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Alumnos</h1>
+    <label for="">Introduzca la nota</label>
+    <input type="number" id="cajanota">
+    <button id="botonbuscar">Bucar alumnos</button>
+    <table id="tablaalumnos">
+        <thead>
+            <tr>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Notas</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#botonbuscar").click(function(){
+                $.get("documents/alumnos.xml",function(data){
+                    console.log("Empezando el analisis");
+                    var nota=parseInt($("#cajanota").val());
+                    //Esto vale para filtrar por notas inexistente, como 11, 
+                    // en este caso sirve porque es ese numero o mas
+                    var filtro="nota:contains("+nota+")";
+                    var elementos=$(data).find("nota");
+
+                    var html="";
+
+                    if(elementos.length<=0){
+                        html="No hay alumnos con esa nota";
+                        
+                    }else{
+                        $(data).find("alumno").each(function(){
+                            console.log("Entrando en el analisis")
+                            // var padre=$(this).parent(); no vale de nada, estan en a misma etiqueta
+                            
+                            var nota2=$(this).find("nota").text();
+                            
+                            if(nota2>=nota){
+                                var nombre= $(this).find("nombre").text();
+                                var apellidos= $(this).find("apellidos").text();
+                                
+                                console.log("Entrando en el ultimo if");
+                                html+="<tr>"
+                                html+="<td>" + nombre;
+                                html+="<td>"+ apellidos;
+                                html+="<td>"+nota2;
+                                html+="</tr>";
+
+                                $("#tablaalumnos tbody").html(html);
+                            }
+
+                        })
+                    }
+                    console.log("Saliendo del analisis");
+                })
+            })
+
+        })
+    </script>
+</body>
+</html>

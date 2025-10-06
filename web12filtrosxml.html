@@ -47,14 +47,16 @@
                         html="No hay coincidencias"
                     }else{
                         $(data).find(filtro).each(function(){
-                        // var cosa= $(this).text();
+                        // var nodopadre= $(this).parent();
+                        // var nombre= nodopadre.find("DNOMBRE").text();
+                        // var numdept= nodopadre.attr("DEPT_NO");
                         
                         var nombre=$(this).parent().find("DNOMBRE").text();
                         var numdept=$(this).parent().attr("DEPT_NO");
 
                         console.log("mi numero de departamento es: "+numdept);
 
-                        html+="<li>"+ numdept+ "  " + nombre +"  " +cosa+"</li>";
+                        html+="<li>"+ numdept+ "  " + nombre +"  " +localidad+"</li>";
 
                         
                     })
