@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Servicio XML Coches</h1><br>
+    <label for="">Seleccione el coche</label>
+    <select name="" id="selectcoche"></select>
+    
+    <div id="contenedor"></div>
+ 
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            //LEEMOS EL SERVICIO Y CARGAMOS TODOS LOS COCHES
+            //EL SERVICIO LO LEEMOS AL INICIO Y AL FINAL
+            let url="https://apiclientesxml.azurewebsites.net/";
+            let request="api/clientes/getcochesxml";
+            $.get(url+request,function(data){
+                console.log("Leyendo...");
+                $(data).find("coche").each(function(){
+                    var id=$(this).attr("idcoche");
+                    var marca=$(this).find("marca").text();
+                    var modelo=$(this).find("modelo").text();
+                    var option= $("<option>");
+                        option.val(id);
+                        option.text(marca + " "+modelo);
+                        $("#selectcoche").append(option);
+                })
+            })
+
+            $("#selectcoche").change(function(){
+                // var id=$(this).val() //ID OPTION PORQUE HACE REFERENCIA A LA LLAVE MAS CERCANA ("#SELECTCOCHE AQUI")
+                $.get(url+request, function(data){
+                //var id=$(this).val() ID OPTION PORQUE HACE REFERENCIA A LA LLAVE MAS CERCANA ("DATA AQUI")
+                    var id=$("#selectcoche").val();
+                    var filtro= "coche[idcoche="+id+"]";
+
+                    var nodo=$(data).find(filtro).first();
+                    var imagen= nodo.find("imagen").text();
+                    // $("#contenedor").html("<img src='"+imagen+"'style='with:150px'>");
+                    $("#contenedor").html(`<img src="${imagen}" style='with:150px'></img>`);//ASI ES FORMATENADO LA ETIQUETA, MAS LEGIBLE
+                })
+            })
+        })
+    </script>
+</body>
+</html>
