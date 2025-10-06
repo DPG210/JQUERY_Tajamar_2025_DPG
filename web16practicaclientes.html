@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Clientes</h1>
+    <label for="">Seleccione el cliente</label>
+    <select name="" id="selectcliente"></select>
+    <div id="contenedor"></div>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            //CREAMOS LAS VARIABLES URL
+            var url="https://apiclientesxml.azurewebsites.net/"
+            var request="api/Clientes/GetClientesXML"
+            $.get(url+request,function(data){
+                $(data).find("CLIENTE").each(function(){
+                    console.log("Entramos...");
+                var id=$(this).attr("IDCLIENTE");
+                console.log(id);
+                var nombre=$(this).find("NOMBRE").text();
+                console.log(nombre);
+                var option=$("<option>");
+                    option.val(id);
+                    option.text(nombre);
+
+                $("#selectcliente").append(option);
+                })
+                
+            })
+            $("#selectcliente").change(function(){
+                var id=$(this).val();
+                $.get(url+request,function(data){
+                    var filtro= "CLIENTE[IDCLIENTE="+id+"]";
+                        var nodo=$(data).find(filtro).first();
+                        console.log("entramos");
+                        var nombre=nodo.find("NOMBRE").text();
+                        var direccion=nodo.find("DIRECCION").text();
+                        var email=nodo.find("EMAIL").text();
+                        var codpost=nodo.find("CODIGOPOSTAL").text();
+                        var codpost=nodo.find("CODIGOPOSTAL").text();
+                        var pagweb=nodo.find("PAGINAWEB").text();
+                        var imagen=nodo.find("IMAGENCLIENTE").text()
+
+                    console.log(direccion, codpost);
+                    var html="";
+
+                    html+="<li>"+id+"<br> "+nombre+"<br> "+direccion+"</li>";
+                    var img=$("<img>");
+                    img.attr("src",imagen); 
+                    img.css("style",'with:15px');
+                    console.log("Este es mi html" +html);
+                    $("#contenedor").append(html);
+                    $("#contenedor").append(imagen);
+                    
+                    
+                })
+            })
+        })
+    </script>
+</body>
+</html>
+

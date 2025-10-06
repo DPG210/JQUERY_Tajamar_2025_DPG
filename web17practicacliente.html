@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Clientes</h1>
+    <div id="contenedor"></div>
+    <div id="contenedor2"></div>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            let url="https://apiclientesxml.azurewebsites.net/"
+            let request="api/Clientes"
+            $.get(url+request,function(data){
+                $(data).find("Cliente").each(function(){
+                    console.log("hemos entrado");
+                    var nombre=$(this).find("Nombre").first().text();
+                    var id=$(this).find("IdCliente").first().text();
+                    // var email=$(this).find("Email").first().text();
+                    // var pagweb=$(this).find("PaginaWeb").first().text();
+ 
+                    var boton=$("<button>");
+                        boton.text(nombre);
+                        boton.val(id);
+                        boton.addClass("botones")
+                     
+                        $("#contenedor").append(boton);   
+                    
+                    })
+                    
+                    $(".botones").click(function(){
+                        var idboton=$(this).val();
+                        console.log("el id del boton es: "+idboton);
+                    let request2="api/Clientes/"+idboton
+                    $.get(url+request2,function(data){
+                        console.log("Hemos entrado en la segunda consulta");
+                        var nombre=$(data).find("Nombre").first().text();
+                        var id=$(data).find("IdCliente").first().text();
+                        var email=$(data).find("Email").first().text();
+                        var pagweb=$(data).find("PaginaWeb").first().text();
+                        var html="";
+                        html+="<h1>";
+                        html+= "El id es "+id+"<br>";
+                        html+= "El nombre es "+nombre+"<br>";
+                        html+= "El email es "+email+"<br>";
+                        html+= "El pagweb es "+pagweb+"<br>";
+                        html+="</h1>";
+                        console.log("Este es mi html: " +html);
+
+                        $("#contenedor2").html(html);
+
+                    
+                    })
+                })
+                    
+                    
+                
+                    
+            })
+            
+    })
+    </script>
+</body>
+</html>
