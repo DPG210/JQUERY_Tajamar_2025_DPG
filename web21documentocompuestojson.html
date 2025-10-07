@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>DOcumento objetos JSON</h1>
+    <button id="botonbuscar">Cargar documentos</button>
+    <ul id="clientes"></ul>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#botonbuscar").click(function(){
+                console.log("Buscando");
+                $.ajax({
+                    url: "documents/clientes.json",
+                    method:"GET", //method y type es lo mismo
+                    dataType: "json",
+                    success: function(data){
+                        console.log("leyendo...");
+                        var html="";
+                        $.each(data.clientes,function(index,objeto){
+                            html+="<li>Index: "+index+ ", Objeto: "+objeto.nombre+"</li>";
+                        })
+                        $("#clientes").html(html);
+                    }
+                })
+                // $.getJSON("documents/clientes.json",function(data){
+                //     var html="";
+                //     $.each(data.clientes,function(index,objeto){
+                //         html+="<li>Index: "+index+ ", Objeto: "+objeto.nombre+"</li>";
+                //     })
+                //     $("#clientes").html(html);
+                // })
+            })
+        })
+    </script>
+</body>
+</html>
