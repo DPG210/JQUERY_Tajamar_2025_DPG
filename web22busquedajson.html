@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Jugadores</h1>
+    <label for="">Seleccione jugador</label>
+    <select name="" id="selectjugador"></select>
+    <div id="containerjugador"></div>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.getJSON("documents/jugadores.json",function(data){
+                $.each(data.jugadores,function(index,objeto){
+                    var nombre=objeto.nombre;
+                    
+                    var option=$("<option>", {"text": nombre,"value":index});
+                    $("#selectjugador").append(option);
+                })
+            })
+
+            $("#selectjugador").change(function(){
+                var value=$("#selectjugador").val();
+                console.log("Mi valor es "+value);
+                $.ajax({
+                    url:"documents/jugadores.json",
+                    method:"GET",
+                    dataType:"json",
+                    success:(function(data){
+                        console.log("leyendo");
+                        var html=""
+                        // $.each(data.jugadores, function(index,jugador){
+                        //     var nombrejugador= jugador.nombre;
+
+                        //     if(nombrejugador==nombre){
+                        //         var posicion= jugador.posicion;
+                        //         var imagen= jugador.imagen;
+
+                        //         html+="<h1>"+ nombrejugador+"</h1>";
+                        //         html+= "<p> Posicion: "+posicion+"</p>";
+                        //         html+="<img src='"+imagen+"' style='width:300px'>";
+
+                        //         $("#containerjugador").html(html);
+                        //     }
+                        // })
+                        var jugador=data.jugadores[value];
+
+                        var nombre=jugador.nombre;
+
+                        var posicion= jugador.posicion;
+                        var imagen= jugador.imagen;
+
+                        html+="<h1>"+ nombre+"</h1>";
+                        html+= "<p> Posicion: "+posicion+"</p>";
+                        html+="<img src='"+imagen+"' style='width:300px'>";
+
+                        $("#containerjugador").html(html);
+
+                        //DOS MANERAS, LA PRIMERA ES LA OFICIAL Y LA SEGUNDA SIN BUCLES
+
+                        
+                    })
+                })
+            })
+        })
+    </script>
+</body>
+</html>
