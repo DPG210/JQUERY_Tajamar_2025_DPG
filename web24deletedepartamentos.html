@@ -7,6 +7,14 @@
 </head>
 <body>
     <h1>Departamentos</h1>
+    <label for="" >ID</label>
+    <input type="text" name="" id="cajaid"><br>
+    <label for="">Nombre</label>
+    <input type="text" id="cajanombre"><br>
+    <label for="">Localidad</label>
+    <input type="text" id="cajalocalidad"><br>
+    <button id="botoncrear">Crear</button>
+    <button id="botonmodificar">Modificar</button>
     <ul id="listadepartamentos"></ul>
     <div id="contenedorboton"></div>
     <script src="js/jquery-3.7.1.js"></script>
@@ -14,6 +22,59 @@
         let url="https://apicruddepartamentospgs.azurewebsites.net/"
         $(document).ready(function(){
             loadDepartamentos();
+            $("#botoncrear").click(function(){
+                $("#listadepartamentos").empty();
+                var nombre=$("#cajanombre").val();
+                var id=parseInt($("#cajaid").val());
+                var localidad=$("#cajalocalidad").val();
+
+                var departamento=new Object();
+                    departamento.numero=id;
+                    departamento.nombre=nombre;
+                    departamento.localidad=localidad;
+
+                var datajson=JSON.stringify(departamento);
+                console.log("mi departamento "+datajson);
+
+                let request="webresources/departamentos/post";
+
+                $.ajax({
+                    url:url+request,
+                    type:"POST",
+                    contentType:"application/json",
+                    data: datajson,
+                    success:function(){
+                        console.log("Subiendo");
+                        loadDepartamentos();
+                    }
+                })
+            })
+            $("#botonmodificar").click(function(){
+                $("#listadepartamentos").empty();
+                var nombre=$("#cajanombre").val();
+                var id=parseInt($("#cajaid").val());
+                var localidad=$("#cajalocalidad").val();
+
+                var departamento=new Object();
+                    departamento.numero=id;
+                    departamento.nombre=nombre;
+                    departamento.localidad=localidad;
+
+                let request="webresources/departamentos/put";
+
+                var datajson=JSON.stringify(departamento);
+
+                $.ajax({
+                    url:url+request,
+                    type:"PUT",
+                    contentType:"application/json",
+                    data:datajson,
+                    success:function(){
+                        console.log("Modificando");
+                        loadDepartamentos();
+                    }
+                })
+            })
             
         })
 
@@ -21,23 +82,50 @@
             let request="webresources/departamentos";
             $.getJSON(url+request,function(data){
                 console.log("Entrando");
-                var html="";
+               
                 $.each(data,function(index,departamento){
                     
+                    var html=$("<li>")
+                    html.text(" Numero "+departamento.numero+
+                    " Nombre "+departamento.nombre+
+                    " Localidad "+departamento.localidad);
+                    
+                    
+                    
+                    
+                    var boton=$("<button>")
+                        boton.css("margin","10px");
+                        boton.text("Borrar "+departamento.nombre);
+                        boton.val(departamento.numero);
+                        boton.addClass("botoneliminar");
 
-                    html+="<li> Numero "+departamento.numero;
-                    html+= " Nombre "+departamento.nombre;
-                    html+= " Localidad "+departamento.localidad;
-                    html+= "<button value="+index+" style='margin:3px'>" +"Borrar   "+departamento.nombre+"</button>";
-                    html+="</li>"
-                    
-                    
-                    $("#listadepartamentos").html(html);
-                    
+                    html.append(boton);
+                    $("#listadepartamentos").append(html);
+
+                    boton.click(function(){
+                      
+                        var id=$(this).val();
+                  
+
+                        let request="webresources/departamentos/delete/"+id;
+
+                        $.ajax({
+                            url:url+request,
+                            type:"DELETE",
+                            success:function(){
+                                console.log("Eliminando");
+                                $("#listadepartamentos").empty();
+                                loadDepartamentos();
+                            }
+                        })
+                    })
                 })
+                
             })
         }
 
     </script>
+
+    <!-- ME SALE ERROR 405 -->
 </body>
 </html>
