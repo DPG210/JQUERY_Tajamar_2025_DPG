@@ -4,17 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .margen{
+            margin:5px;
+        }
+    </style>
 </head>
 <body>
     <h1>Departamentos</h1>
     <label for="" >ID</label>
-    <input type="text" name="" id="cajaid"><br>
+    <input type="text" name="" id="cajaid" class="margen"><br>
     <label for="">Nombre</label>
-    <input type="text" id="cajanombre"><br>
+    <input type="text" id="cajanombre" class="margen"><br>
     <label for="">Localidad</label>
-    <input type="text" id="cajalocalidad"><br>
-    <button id="botoncrear">Crear</button>
-    <button id="botonmodificar">Modificar</button>
+    <input type="text" id="cajalocalidad" class="margen"><br>
+    <button id="botoncrear" class="margen">Crear</button>
+    <button id="botonmodificar" class="margen">Modificar</button>
     <ul id="listadepartamentos"></ul>
     <div id="contenedorboton"></div>
     <script src="js/jquery-3.7.1.js"></script>
@@ -23,7 +28,8 @@
         $(document).ready(function(){
             loadDepartamentos();
             $("#botoncrear").click(function(){
-                $("#listadepartamentos").empty();
+                $("#listadepartamentos").html("");
+                // $("#listadepartamentos").empty();
                 var nombre=$("#cajanombre").val();
                 var id=parseInt($("#cajaid").val());
                 var localidad=$("#cajalocalidad").val();
@@ -50,7 +56,8 @@
                 })
             })
             $("#botonmodificar").click(function(){
-                $("#listadepartamentos").empty();
+                $("#listadepartamentos").html("");
+                // $("#listadepartamentos").empty();
                 var nombre=$("#cajanombre").val();
                 var id=parseInt($("#cajaid").val());
                 var localidad=$("#cajalocalidad").val();
@@ -80,6 +87,7 @@
 
         function loadDepartamentos(){
             let request="webresources/departamentos";
+            $("#listadepartamentos").html("");
             $.getJSON(url+request,function(data){
                 console.log("Entrando");
                
@@ -90,7 +98,7 @@
                     " Nombre "+departamento.nombre+
                     " Localidad "+departamento.localidad);
                     
-                    
+                    //var li= $("<li>",{"text":departamento.nombre"});
                     
                     
                     var boton=$("<button>")
@@ -114,7 +122,7 @@
                             type:"DELETE",
                             success:function(){
                                 console.log("Eliminando");
-                                $("#listadepartamentos").empty();
+                                // $("#listadepartamentos").empty();
                                 loadDepartamentos();
                             }
                         })
@@ -126,6 +134,5 @@
 
     </script>
 
-    <!-- ME SALE ERROR 405 -->
 </body>
 </html>
