@@ -180,14 +180,79 @@
     <main class="container">
         <div class="bg-body-tertiary p-5 rounded">
             <h1>Editar Hospital</h1>
-            
+            <h2 id="mensaje"></h2>
+            <input type="hidden" id="cajaid">
+            <label for="">Nombre</label>
+            <input type="text" id="cajanombre" class="form-control"><br>
+            <label for="">Direccion</label>
+            <input type="text" id="cajadireccion" class="form-control"><br>
+            <label for="">Teléfono</label>
+            <input type="text" id="cajatelefono" class="form-control"><br>
+            <label for="">Camas</label>
+            <input type="text" id="cajacamas" class="form-control"><br>
+            <button id="botonmodificar" class="btn btn-bd-primary">Modificar</button>
         </div>
     </main>
     <script src="js/bootstrap.bundle.js"></script>
     <script src="js/jquery-3.7.1.js"></script>
     <script>
+        let url="https://apicrudhospital.azurewebsites.net/"
         $(document).ready(function(){
+            $("#botonmodificar").click(function(){
+                let requestput="webresources/hospitales/put";
+                var id=parseInt($("#cajaid").val());
+                var nombre=$("#cajanombre").val();
+                var direccion=$("#cajadireccion").val();
+                var telefono=$("#cajatelefono").val();
+                var camas=parseInt($("#cajacamas").val());
+
+                var hospital=new Object();
+                    hospital.idhospital=id;
+                    hospital.nombre=nombre;
+                    hospital.direccion=direccion;
+                    hospital.telefono=telefono;
+                    hospital.camas=camas;
+
+                console.log(hospital);
+
+                var hospitalJSON=JSON.stringify(hospital);
+                console.log(hospitalJSON);
+
+                $.ajax({
+                    url:url+requestput,
+                    type:"PUT",
+                    contentType:"application/json",
+                    data:hospitalJSON,
+                    success:function(){
+                        console.log("Actualizando Hospital");
+                        $("#mensaje").text("Hospital actualizado");
+                        window.location.href="web28detailhospital.html?idhospital="+id
+
+                    }
+                })
+
+            })
             
+            let params=new window.URLSearchParams(window.location.search);
+            var idhospital=params.get("idhospital");
+            console.log(idhospital);
+            let request="webresources/hospitales/"+idhospital;
+            $.ajax({
+                url:url+request,
+                type:"GET",
+                dataType:"json",
+                success:function(data){
+                    console.log("Leyendo hospital");
+                    console.log(data);
+                    $("#cajaid").val(data.idhospital);
+                    $("#cajanombre").val(data.nombre);
+                    $("#cajadireccion").val(data.direccion);
+                    $("#cajatelefono").val(data.telefono);
+                    $("#cajacamas").val(data.camas);
+                }
+
+            })
+
         })
     </script>
 </body>
